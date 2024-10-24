@@ -5,5 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Home Page</title>
   </head>
-  <body></body>
+  <body>
+    <h1>Welcom to The Files Manager</h1>
+    <h2>
+      Here's a list of the files you have, you can click on the file you want to
+      get more deatil.
+    </h2>
+
+    <% filesList.forEach(file =>{%>
+    <p>
+      <a href="/files/:<%= file %>"> <%= file %></a>
+    </p>
+    <% }) %>
+  </body>
 </html>
