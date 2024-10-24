@@ -11,11 +11,16 @@
       Here's a list of the files you have, you can click on the file you want to
       get more deatil.
     </h2>
+    <div class="content">
+      <% filesList.forEach(file =>{%>
+      <p>
+        <a href="/files/:<%= file %>"> <%= file %></a>
+      </p>
+      <% }) %>
+    </div>
 
-    <% filesList.forEach(file =>{%>
-    <p>
-      <a href="/files/:<%= file %>"> <%= file %></a>
-    </p>
-    <% }) %>
+    <button type="button" onclick="location.href ='/create'">
+      Add New File
+    </button>
   </body>
 </html>

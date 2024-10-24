@@ -6,6 +6,23 @@
     <title>Create File</title>
   </head>
   <body>
-    Simple Form
+    <h1>Creat New file</h1>
+
+    <form action="/create" method="post">
+      <div>
+        <p>file Name:</p>
+        <input type="text" name="file-name" required />
+      </div>
+      <div>
+        <p><label for="file-content">Content:</label></p>
+        <textarea
+          id="file-content"
+          name="file-content"
+          rows="4"
+          cols="50"
+        ></textarea>
+      </div>
+      <input type="submit" value="Submit" />
+    </form>
   </body>
 </html>
