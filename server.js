@@ -48,5 +48,5 @@ app.post("/create", (req, res) => {
 });
 
 app.get("/files/:filename", (req, res) => {
-  res.render("details", { filename: "getFileNameFromURL" });
+  res.render("details", { filename: req.params.filename });
 });
