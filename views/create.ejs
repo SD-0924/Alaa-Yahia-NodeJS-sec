@@ -4,11 +4,15 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Create File</title>
+    <script src="/scripts.js"></script>
   </head>
   <body>
     <h1>Creat New file</h1>
-
-    <form action="/create" method="post">
+    <form
+      action="/create"
+      method="post"
+      onsubmit="return validateFilename('<%= JSON.stringify(filesList) %>')"
+    >
       <div>
         <p>file Name:</p>
         <input type="text" name="file-name" required />
@@ -22,7 +26,7 @@
           cols="50"
         ></textarea>
       </div>
-      <input type="submit" value="Submit" />
+      <input type="submit" value="Send" />
     </form>
   </body>
 </html>

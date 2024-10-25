@@ -5,18 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>File Details</title>
     <link rel="stylesheet" href="/styles.css" type="text/css" />
+    <script src="/scripts.js"></script>
   </head>
   <body>
-    <h1>Details of File: <%= filename %></h1>
     <main>
-      <p><%= fileContent %></p>
-
-      <!-- <button type="button" onclick="location.href ='/edit/ <%= filename %>'">
-        Edit File
-      </button>
-      <button type="button" onclick="location.href ='/delete/  <%= filename %>'">
-        Delete File
-      </button> -->
+      <div class="content">
+        <h1>Details of File: <%= filename %></h1>
+        <p><%= fileContent %></p>
+        <button
+          type="button"
+          onclick="showForm('<%= filename %>','<%= fileContent %>')"
+        >
+          Edit File
+        </button>
+      </div>
     </main>
 
     rename the file delete the file

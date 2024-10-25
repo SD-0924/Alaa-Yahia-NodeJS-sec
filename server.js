@@ -1,4 +1,4 @@
-import express from "express";
+import express, { response } from "express";
 import fs from "fs";
 import bodyParser from "body-parser";
 
@@ -26,10 +26,21 @@ async function readDirictory() {
 
 async function appendToFile(fileName, data) {
   try {
-    fs.appendFileSync(dataFolder + fileName + ".txt", data, { flag: "w" });
+    fs.appendFileSync(dataFolder + fileName, data, { flag: "w" });
     console.log(`Appended data to ${fileName}`);
   } catch (error) {
     console.error(`Got an error trying to append the file: ${error.message}`);
+  }
+}
+
+async function renameFile(fileName, newFilename) {
+  console.log(fileName, newFilename);
+
+  try {
+    fs.renameSync(dataFolder + fileName, dataFolder + newFilename);
+    console.log(`Rename file to ${newFilename}`);
+  } catch (error) {
+    console.error(`Got an error trying to rename the file: ${error.message}`);
   }
 }
 
@@ -42,23 +53,37 @@ function readFile(fileName) {
   }
 }
 
+function removeExtension(filename) {
+  return filename.substring(0, filename.lastIndexOf(".")) || filename;
+}
+
 app.get("/", (req, res) => {
   readDirictory();
   res.render("index", { filesList });
 });
 
 app.get("/create", (req, res) => {
-  res.render("create");
+  readDirictory();
+  res.render("create", { filesList });
 });
 
 app.post("/create", (req, res) => {
-  appendToFile(req.body["file-name"], req.body["file-content"]);
+  appendToFile(req.body["file-name"] + ".txt", req.body["file-content"]);
   readDirictory();
   res.render("index", { filesList });
 });
 
 app.get("/files/:filename", (req, res) => {
-  const filename = req.params.filename;
-  const fileContent = readFile(filename);
+  const filename = removeExtension(req.params.filename);
+  const fileContent = readFile(req.params.filename);
   res.render("details", { filename, fileContent });
+});
+
+app.post("/edit/:filename", (req, res) => {
+  const filename = req.params.filename + ".txt";
+  const newFilename = req.body["new-file-name"] + ".txt";
+
+  renameFile(filename, newFilename);
+  appendToFile(newFilename, req.body["file-content"]);
+  res.redirect("/files/" + newFilename);
 });
