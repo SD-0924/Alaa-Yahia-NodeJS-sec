@@ -11,6 +11,7 @@ app.listen(3000);
 
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static("./public/"));
 
 async function readDirictory() {
   try {
@@ -32,6 +33,15 @@ async function appendToFile(fileName, data) {
   }
 }
 
+function readFile(fileName) {
+  try {
+    const data = fs.readFileSync(dataFolder + fileName);
+    return data.toString();
+  } catch (error) {
+    console.error(`Got an error trying to read the file: ${error.message}`);
+  }
+}
+
 app.get("/", (req, res) => {
   readDirictory();
   res.render("index", { filesList });
@@ -48,5 +58,7 @@ app.post("/create", (req, res) => {
 });
 
 app.get("/files/:filename", (req, res) => {
-  res.render("details", { filename: req.params.filename });
+  const filename = req.params.filename;
+  const fileContent = readFile(filename);
+  res.render("details", { filename, fileContent });
 });
