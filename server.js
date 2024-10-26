@@ -13,7 +13,12 @@ app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("./public/"));
 
+///controler + router // mvc
+//poling app
+
+// do we need to deal with file extensions other than txt?
 async function readDirictory() {
+  //midleware
   try {
     filesList = fs.readdirSync(dataFolder);
     console.log(`read files names`);
@@ -53,11 +58,21 @@ function readFile(fileName) {
   }
 }
 
+async function deleteFile(fileName) {
+  try {
+    fs.unlinkSync(dataFolder + fileName);
+    console.log(`Deleted ${fileName}`);
+  } catch (error) {
+    console.error(`Got an error trying to delete the file: ${error.message}`);
+  }
+}
+
 function removeExtension(filename) {
   return filename.substring(0, filename.lastIndexOf(".")) || filename;
 }
 
 app.get("/", (req, res) => {
+  //root
   readDirictory();
   res.render("index", { filesList });
 });
@@ -86,4 +101,11 @@ app.post("/edit/:filename", (req, res) => {
   renameFile(filename, newFilename);
   appendToFile(newFilename, req.body["file-content"]);
   res.redirect("/files/" + newFilename);
+});
+
+app.post("/delete/:filename", (req, res) => {
+  const filename = req.params.filename + ".txt";
+  deleteFile(filename);
+  readDirictory();
+  res.render("index", { filesList });
 });
