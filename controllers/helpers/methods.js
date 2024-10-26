@@ -25,6 +25,7 @@ function readFile(fileName) {
     return data.toString();
   } catch (error) {
     console.error(`Got an error trying to read the file: ${error.message}`);
+    throw error;
   }
 }
 

@@ -29,7 +29,7 @@ const get_create = (req, res) => {
 
 const post_create = (req, res) => {
   methods.appendToFile(
-    DATA_FOULDER + req.body["file-name"] + TEXT_FILE_EXTENSION,
+    DATA_FOULDER + req.body["file-name"].trim() + TEXT_FILE_EXTENSION,
     req.body["file-content"]
   );
   readDirictory(DATA_FOULDER);
@@ -39,11 +39,16 @@ const post_create = (req, res) => {
 const get_file_details = (req, res) => {
   readDirictory(DATA_FOULDER);
   const filename = methods.removeExtension(req.params.filename);
-  const fileContent = methods.readFile(DATA_FOULDER + req.params.filename);
-  if (fileContent) {
+  let fileContent = null;
+
+  try {
+    fileContent = methods.readFile(DATA_FOULDER + req.params.filename);
     res.render("details", { filename, fileContent, filesList });
+  } catch (err) {
+    if (err.code == "ENOENT") {
+      res.redirect("/");
+    }
   }
-  res.redirect("/");
 };
 
 const edit_file = (req, res) => {
