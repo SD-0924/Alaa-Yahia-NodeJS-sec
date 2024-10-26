@@ -11,3 +11,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("./public/"));
 
 app.use(routes);
+
+app.use((req, res) => {
+  res.redirect("/");
+});

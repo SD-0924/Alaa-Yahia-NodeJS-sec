@@ -21,7 +21,7 @@
         <form
           action="/edit/<%= filename %>"
           method="post"
-          onsubmit="return validateFilename('<%= JSON.stringify(filesList) %>')"
+          onsubmit="return validateFilename('<%= JSON.stringify(filesList) %>','edit=true')"
         >
           <div>
             <p>file Name:</p>
@@ -48,7 +48,5 @@
         </form>
       </div>
     </main>
-
-    //add client side validation //delete the file
   </body>
 </html>

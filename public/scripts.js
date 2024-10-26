@@ -5,7 +5,7 @@ function isValidWindowsFilename(filename) {
   return rg1.test(filename) && !rg2.test(filename) && !rg3.test(filename);
 }
 
-function validateFilename(filesList1) {
+function validateFilename(filesList1, edit = false) {
   const filesList = JSON.parse(filesList1);
   let filename = document.getElementById("file-name-id").value.trim();
   let filenameErr = document.getElementById("file-name-error");
@@ -18,7 +18,7 @@ function validateFilename(filesList1) {
       "File Name is using forbidding characters. change the name please";
     return false;
   }
-  if (filesList.includes(filename + ".txt")) {
+  if (!edit && filesList.includes(filename + ".txt")) {
     filenameErr.innerHTML = "File already found. change the name please";
     return false;
   } else {

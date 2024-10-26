@@ -28,8 +28,6 @@ async function appendToFile(fileName, data) {
 }
 
 async function renameFile(fileName, newFilename) {
-  console.log(fileName, newFilename);
-
   try {
     fs.renameSync(dataFolder + fileName, dataFolder + newFilename);
     console.log(`Rename file to ${newFilename}`);
@@ -75,14 +73,17 @@ const get_create = (req, res) => {
 const post_create = (req, res) => {
   appendToFile(req.body["file-name"] + ".txt", req.body["file-content"]);
   readDirictory();
-  res.render("index", { filesList });
+  res.redirect("/");
 };
 
 const get_file_details = (req, res) => {
   readDirictory();
   const filename = removeExtension(req.params.filename);
   const fileContent = readFile(req.params.filename);
-  res.render("details", { filename, fileContent, filesList });
+  if (fileContent) {
+    res.render("details", { filename, fileContent, filesList });
+  }
+  res.redirect("/");
 };
 
 const edit_file = (req, res) => {
@@ -98,7 +99,7 @@ const delete_file = (req, res) => {
   const filename = req.params.filename + ".txt";
   deleteFile(filename);
   readDirictory();
-  res.render("index", { filesList });
+  res.redirect("/");
 };
 
 module.exports = {
