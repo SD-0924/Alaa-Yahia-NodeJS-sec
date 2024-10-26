@@ -1,16 +1,13 @@
 const fs = require("fs");
+const { TEXT_FILE_EXTENSION, DATA_FOULDER } = require("./helpers/constants");
+const methods = require("./helpers/methods");
 
-/**const */
-const dataFolder = "./data/";
-
-/** "Data Base" */
+/** "Data Base Representave" */
 let filesList = [];
 
-/**Helper functions */
-async function readDirictory() {
+async function readDirictory(dirictory) {
   try {
-    filesList = fs.readdirSync(dataFolder);
-    console.log(`read files names`);
+    filesList = fs.readdirSync(dirictory);
   } catch (error) {
     console.error(
       `Got an error trying to read the files names from the dirictory: ${error.message}`
@@ -18,68 +15,31 @@ async function readDirictory() {
   }
 }
 
-async function appendToFile(fileName, data) {
-  try {
-    fs.appendFileSync(dataFolder + fileName, data, { flag: "w" });
-    console.log(`Appended data to ${fileName}`);
-  } catch (error) {
-    console.error(`Got an error trying to append the file: ${error.message}`);
-  }
-}
-
-async function renameFile(fileName, newFilename) {
-  try {
-    fs.renameSync(dataFolder + fileName, dataFolder + newFilename);
-    console.log(`Rename file to ${newFilename}`);
-  } catch (error) {
-    console.error(`Got an error trying to rename the file: ${error.message}`);
-  }
-}
-
-function readFile(fileName) {
-  try {
-    const data = fs.readFileSync(dataFolder + fileName);
-    return data.toString();
-  } catch (error) {
-    console.error(`Got an error trying to read the file: ${error.message}`);
-  }
-}
-
-async function deleteFile(fileName) {
-  try {
-    fs.unlinkSync(dataFolder + fileName);
-    console.log(`Deleted ${fileName}`);
-  } catch (error) {
-    console.error(`Got an error trying to delete the file: ${error.message}`);
-  }
-}
-
-function removeExtension(filename) {
-  return filename.substring(0, filename.lastIndexOf(".")) || filename;
-}
-
 /**Controllers */
 
 const get_home = (req, res) => {
-  readDirictory();
+  readDirictory(DATA_FOULDER);
   res.render("index", { filesList });
 };
 
 const get_create = (req, res) => {
-  readDirictory();
+  readDirictory(DATA_FOULDER);
   res.render("create", { filesList });
 };
 
 const post_create = (req, res) => {
-  appendToFile(req.body["file-name"] + ".txt", req.body["file-content"]);
-  readDirictory();
+  methods.appendToFile(
+    DATA_FOULDER + req.body["file-name"] + TEXT_FILE_EXTENSION,
+    req.body["file-content"]
+  );
+  readDirictory(DATA_FOULDER);
   res.redirect("/");
 };
 
 const get_file_details = (req, res) => {
-  readDirictory();
-  const filename = removeExtension(req.params.filename);
-  const fileContent = readFile(req.params.filename);
+  readDirictory(DATA_FOULDER);
+  const filename = methods.removeExtension(req.params.filename);
+  const fileContent = methods.readFile(DATA_FOULDER + req.params.filename);
   if (fileContent) {
     res.render("details", { filename, fileContent, filesList });
   }
@@ -87,18 +47,18 @@ const get_file_details = (req, res) => {
 };
 
 const edit_file = (req, res) => {
-  const filename = req.params.filename + ".txt";
-  const newFilename = req.body["new-file-name"] + ".txt";
+  const filename = req.params.filename + TEXT_FILE_EXTENSION;
+  const newFilename = req.body["new-file-name"] + TEXT_FILE_EXTENSION;
 
-  renameFile(filename, newFilename);
-  appendToFile(newFilename, req.body["file-content"]);
+  methods.renameFile(DATA_FOULDER + filename, DATA_FOULDER + newFilename);
+  methods.appendToFile(DATA_FOULDER + newFilename, req.body["file-content"]);
   res.redirect("/files/" + newFilename);
 };
 
 const delete_file = (req, res) => {
-  const filename = req.params.filename + ".txt";
-  deleteFile(filename);
-  readDirictory();
+  const filename = req.params.filename + TEXT_FILE_EXTENSION;
+  methods.deleteFile(DATA_FOULDER + filename);
+  readDirictory(DATA_FOULDER);
   res.redirect("/");
 };
 
