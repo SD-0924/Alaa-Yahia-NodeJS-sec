@@ -32,7 +32,6 @@ function validateFilename(filesList1) {
   let filename = document.getElementById("file-name-id").value;
   let filenameErr = document.getElementById("file-name-error");
 
-  console.log("jdfhklfdhhhhhhhhhhhh", filename);
   if (filesList.includes(filename + ".txt")) {
     filenameErr.innerHTML = "File already found. change the name please";
     return false;
