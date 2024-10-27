@@ -8,6 +8,8 @@
     <script src="/scripts.js"></script>
   </head>
   <body>
+    <%- include('partials/header') %>
+
     <h1>Creat New file</h1>
     <form
       action="/fileupload"
@@ -40,5 +42,6 @@
       </div>
       <input type="submit" value="Send" />
     </form>
+    <%- include('partials/footer') %>
   </body>
 </html>

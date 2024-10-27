@@ -1,5 +1,15 @@
 /* styles.css */
 
+/* Header and */
+header {
+  background-color: #cea9db;
+  color: #fff;
+  padding: 20px 20px;
+  border-radius: 2px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
 /* General styles */
 body {
   font-family: Arial, sans-serif;
@@ -7,6 +17,9 @@ body {
   margin: 0;
   padding: 20px;
   line-height: 1.6;
+}
+main {
+  min-height: 450px;
 }
 
 h1 {
@@ -114,4 +127,15 @@ form .form-actions {
 
 form .form-actions button {
   margin: 0 5px;
+}
+
+/* footer styles */
+footer {
+  background-color: #cea9db;
+  color: #fff;
+  padding: 20px 20px;
+  border-radius: 2px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  bottom: 0;
 }
