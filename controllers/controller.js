@@ -1,5 +1,6 @@
 const fs = require("fs");
 const formidable = require("formidable");
+const path = require("path");
 
 const { TEXT_FILE_EXTENSION, DATA_FOULDER } = require("./helpers/constants");
 const methods = require("./helpers/methods");
@@ -86,6 +87,16 @@ const file_upload = (req, res) => {
   });
 };
 
+const download_file = (req, res) => {
+  res.download(
+    DATA_FOULDER + req.params.filename + TEXT_FILE_EXTENSION,
+    function (err) {
+      if (err) throw err;
+      console.log("File downloaded!");
+    }
+  );
+};
+
 module.exports = {
   get_home,
   get_create,
@@ -94,4 +105,5 @@ module.exports = {
   edit_file,
   delete_file,
   file_upload,
+  download_file,
 };

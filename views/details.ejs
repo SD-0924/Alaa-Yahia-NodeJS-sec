@@ -13,6 +13,11 @@
         <h1>Details of File: <%= filename %></h1>
         <p><%= fileContent %></p>
         <button type="button" onclick="showForm()">Edit File</button>
+        <form action="/download/<%= filename %>" method="post">
+        <button type="submit" value= "Dowload File">
+        </form>
+          Download File
+        </button>
       </div>
 
       <div class="check"></div>
