@@ -35,3 +35,14 @@ function showForm() {
     x.style.display = "none";
   }
 }
+
+function validateFile() {
+  let fileUploadErr = document.getElementById("file-upload-err");
+
+  if (!document.getElementsByName("filetoupload")[0].value) {
+    fileUploadErr.innerHTML = "You did not upload any file.";
+    return false;
+  }
+  fileUploadErr.innerHTML = "";
+  return true;
+}

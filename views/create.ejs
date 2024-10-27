@@ -4,12 +4,19 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Create File</title>
+    <link rel="stylesheet" href="/styles.css" type="text/css" />
     <script src="/scripts.js"></script>
   </head>
   <body>
     <h1>Creat New file</h1>
-    <form action="/fileupload" method="post" enctype="multipart/form-data">
+    <form
+      action="/fileupload"
+      method="post"
+      enctype="multipart/form-data"
+      onsubmit="return validateFile()"
+    >
       <input type="file" name="filetoupload" />
+      <p id="file-upload-err" style="color: red"></p>
       <input type="submit" />
     </form>
     <form

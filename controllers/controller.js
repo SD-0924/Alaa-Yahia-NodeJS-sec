@@ -73,17 +73,19 @@ const delete_file = (req, res) => {
 const file_upload = (req, res) => {
   const form = new formidable.IncomingForm();
   form.parse(req, function (err, fields, files) {
-    console.log(">>>>>>>>>>>>>>>>", fields);
-    console.log(">>>>>>>", files.filetoupload[0].filepath);
-
     if (err) throw err;
-    const oldpath = files.filetoupload[0].filepath;
-    const newpath = DATA_FOULDER + files.filetoupload[0].originalFilename;
-    fs.rename(oldpath, newpath, function (err) {
-      if (err) throw err;
-      console.log("File uploaded and moved!");
+    try {
+      const oldpath = files.filetoupload[0].filepath;
+      const newpath = DATA_FOULDER + files.filetoupload[0].originalFilename;
+      fs.rename(oldpath, newpath, function (err) {
+        if (err) throw err;
+        console.log("File uploaded and moved!");
+        res.redirect("/");
+      });
+    } catch (err) {
+      `Got an error trying to upload the file: ${error.message}`;
       res.redirect("/");
-    });
+    }
   });
 };
 
