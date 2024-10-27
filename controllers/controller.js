@@ -1,4 +1,6 @@
 const fs = require("fs");
+const formidable = require("formidable");
+
 const { TEXT_FILE_EXTENSION, DATA_FOULDER } = require("./helpers/constants");
 const methods = require("./helpers/methods");
 
@@ -67,6 +69,23 @@ const delete_file = (req, res) => {
   res.redirect("/");
 };
 
+const file_upload = (req, res) => {
+  const form = new formidable.IncomingForm();
+  form.parse(req, function (err, fields, files) {
+    console.log(">>>>>>>>>>>>>>>>", fields);
+    console.log(">>>>>>>", files.filetoupload[0].filepath);
+
+    if (err) throw err;
+    const oldpath = files.filetoupload[0].filepath;
+    const newpath = DATA_FOULDER + files.filetoupload[0].originalFilename;
+    fs.rename(oldpath, newpath, function (err) {
+      if (err) throw err;
+      console.log("File uploaded and moved!");
+      res.redirect("/");
+    });
+  });
+};
+
 module.exports = {
   get_home,
   get_create,
@@ -74,4 +93,5 @@ module.exports = {
   get_file_details,
   edit_file,
   delete_file,
+  file_upload,
 };
